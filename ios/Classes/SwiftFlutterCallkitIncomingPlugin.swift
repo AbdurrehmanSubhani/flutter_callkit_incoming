@@ -183,7 +183,17 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
                 self.connectedCall(self.data!)
             }else{
                 if let getArgs = args as? [String: Any] {
-                    self.data = Data(args: getArgs)
+                    // Instead of creating a new Data object, just update the existing one or use it as-is
+                    if let callId = getArgs["id"] as? String, !callId.isEmpty {
+                        // If only ID is provided, use existing data
+                        self.connectedCall(self.data!)
+                    } else {
+                        // If full data is provided, create new data object
+                        self.data = Data(args: getArgs)
+                        self.connectedCall(self.data!)
+                    }
+                } else {
+                    // No arguments provided, use existing data
                     self.connectedCall(self.data!)
                 }
             }
@@ -381,6 +391,7 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
     }
     
     @objc public func connectedCall(_ data: Data) {
+        print("DEBUG: connectedCall called with data.audioSessionDefaultToSpeaker = \(data.audioSessionDefaultToSpeaker)")
         var call: Call? = nil
         if(self.isFromPushKit){
             call = Call(uuid: UUID(uuidString: self.data!.uuid)!, data: data)
@@ -507,6 +518,12 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
         if data?.configureAudioSession != false {
             let session: AVAudioSession = AVAudioSession.sharedInstance()
             do{
+                print("DEBUG: configureAudioSession called")
+                print("DEBUG: data is nil: \(data == nil)")
+                if let data = data {
+                    print("DEBUG: audioSessionDefaultToSpeaker = \(data.audioSessionDefaultToSpeaker)")
+                    print("DEBUG: data: \(data.toJSON())")
+                }
                 var options: AVAudioSession.CategoryOptions = data?.audioSessionDefaultToSpeaker == true ? [
                     .defaultToSpeaker,
                     .allowBluetoothA2DP,
