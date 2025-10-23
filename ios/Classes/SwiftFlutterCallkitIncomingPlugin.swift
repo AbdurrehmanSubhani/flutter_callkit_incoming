@@ -391,7 +391,6 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
     }
     
     @objc public func connectedCall(_ data: Data) {
-        print("DEBUG: connectedCall called with data.audioSessionDefaultToSpeaker = \(data.audioSessionDefaultToSpeaker)")
         var call: Call? = nil
         if(self.isFromPushKit){
             call = Call(uuid: UUID(uuidString: self.data!.uuid)!, data: data)
@@ -516,14 +515,8 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
     
     func configureAudioSession(){
         if data?.configureAudioSession != false {
-            let session: AVAudioSession = AVAudioSession.sharedInstance()
+            let session = AVAudioSession.sharedInstance()
             do{
-                print("DEBUG: configureAudioSession called")
-                print("DEBUG: data is nil: \(data == nil)")
-                if let data = data {
-                    print("DEBUG: audioSessionDefaultToSpeaker = \(data.audioSessionDefaultToSpeaker)")
-                    print("DEBUG: data: \(data.toJSON())")
-                }
                 var options: AVAudioSession.CategoryOptions = data?.audioSessionDefaultToSpeaker == true ? [
                     .defaultToSpeaker,
                     .allowBluetoothA2DP,
