@@ -508,6 +508,7 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
             let session = AVAudioSession.sharedInstance()
             do{
                 try session.setCategory(AVAudioSession.Category.playAndRecord, options: [
+                    .defaultToSpeaker,
                     .allowBluetoothA2DP,
                     .duckOthers,
                     .allowBluetooth,
