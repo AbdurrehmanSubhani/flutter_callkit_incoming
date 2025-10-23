@@ -294,7 +294,8 @@ public class Call: NSObject {
             "audioSessionMode": audioSessionMode,
             "audioSessionActive": audioSessionActive,
             "audioSessionPreferredSampleRate": audioSessionPreferredSampleRate,
-            "audioSessionPreferredIOBufferDuration": audioSessionPreferredIOBufferDuration
+            "audioSessionPreferredIOBufferDuration": audioSessionPreferredIOBufferDuration,
+            "audioSessionDefaultToSpeaker": audioSessionDefaultToSpeaker
         ]
         let map: [String : Any] = [
             "uuid": uuid,
