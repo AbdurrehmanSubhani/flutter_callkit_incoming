@@ -507,12 +507,18 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
         if data?.configureAudioSession != false {
             let session = AVAudioSession.sharedInstance()
             do{
-                try session.setCategory(AVAudioSession.Category.playAndRecord, options: [
-                    .defaultToSpeaker,
+                var options: AVAudioSession.CategoryOptions = [
                     .allowBluetoothA2DP,
                     .duckOthers,
                     .allowBluetooth,
-                ])
+                ]
+                
+                // Add .defaultToSpeaker if audioSessionDefaultToSpeaker is true
+                if data?.audioSessionDefaultToSpeaker == true {
+                    options.insert(.defaultToSpeaker)
+                }
+                
+                try session.setCategory(AVAudioSession.Category.playAndRecord, options: options)
                 
                 try session.setMode(self.getAudioSessionMode(data?.audioSessionMode))
                 try session.setActive(data?.audioSessionActive ?? true)

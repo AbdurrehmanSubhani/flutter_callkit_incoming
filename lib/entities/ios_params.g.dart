@@ -10,14 +10,17 @@ IOSParams _$IOSParamsFromJson(Map<String, dynamic> json) => IOSParams(
       iconName: json['iconName'] as String?,
       handleType: json['handleType'] as String?,
       supportsVideo: json['supportsVideo'] as bool?,
-      maximumCallGroups: json['maximumCallGroups'] as int?,
-      maximumCallsPerCallGroup: json['maximumCallsPerCallGroup'] as int?,
+      maximumCallGroups: (json['maximumCallGroups'] as num?)?.toInt(),
+      maximumCallsPerCallGroup:
+          (json['maximumCallsPerCallGroup'] as num?)?.toInt(),
       audioSessionMode: json['audioSessionMode'] as String?,
       audioSessionActive: json['audioSessionActive'] as bool?,
       audioSessionPreferredSampleRate:
           (json['audioSessionPreferredSampleRate'] as num?)?.toDouble(),
       audioSessionPreferredIOBufferDuration:
           (json['audioSessionPreferredIOBufferDuration'] as num?)?.toDouble(),
+      audioSessionDefaultToSpeaker:
+          json['audioSessionDefaultToSpeaker'] as bool?,
       configureAudioSession: json['configureAudioSession'] as bool?,
       supportsDTMF: json['supportsDTMF'] as bool?,
       supportsHolding: json['supportsHolding'] as bool?,
@@ -38,6 +41,7 @@ Map<String, dynamic> _$IOSParamsToJson(IOSParams instance) => <String, dynamic>{
           instance.audioSessionPreferredSampleRate,
       'audioSessionPreferredIOBufferDuration':
           instance.audioSessionPreferredIOBufferDuration,
+      'audioSessionDefaultToSpeaker': instance.audioSessionDefaultToSpeaker,
       'configureAudioSession': instance.configureAudioSession,
       'supportsDTMF': instance.supportsDTMF,
       'supportsHolding': instance.supportsHolding,

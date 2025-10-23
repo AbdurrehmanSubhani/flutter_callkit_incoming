@@ -17,6 +17,7 @@ class IOSParams {
   final bool? audioSessionActive;
   final double? audioSessionPreferredSampleRate;
   final double? audioSessionPreferredIOBufferDuration;
+  final bool? audioSessionDefaultToSpeaker;
   final bool? configureAudioSession;
   final bool? supportsDTMF;
   final bool? supportsHolding;
@@ -36,6 +37,7 @@ class IOSParams {
     this.audioSessionActive,
     this.audioSessionPreferredSampleRate,
     this.audioSessionPreferredIOBufferDuration,
+    this.audioSessionDefaultToSpeaker,
     this.configureAudioSession,
     this.supportsDTMF,
     this.supportsHolding,
