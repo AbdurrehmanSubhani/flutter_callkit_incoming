@@ -155,6 +155,7 @@ public class Call: NSObject {
     @objc public var audioSessionActive: Bool
     @objc public var audioSessionPreferredSampleRate: Double
     @objc public var audioSessionPreferredIOBufferDuration: Double
+    @objc public var audioSessionDefaultToSpeaker: Bool
     
     //missedCallNotification
     @objc public var isShowMissedCallNotification: Bool = true
@@ -191,6 +192,7 @@ public class Call: NSObject {
         self.audioSessionActive = true
         self.audioSessionPreferredSampleRate = 44100.0
         self.audioSessionPreferredIOBufferDuration = 0.005
+        self.audioSessionDefaultToSpeaker = false
         
         self.isShowMissedCallNotification = true
         self.missedNotificationSubtitle = "Missed Call"
@@ -236,6 +238,7 @@ public class Call: NSObject {
             self.audioSessionActive = ios["audioSessionActive"] as? Bool ?? true
             self.audioSessionPreferredSampleRate = ios["audioSessionPreferredSampleRate"] as? Double ?? 44100.0
             self.audioSessionPreferredIOBufferDuration = ios["audioSessionPreferredIOBufferDuration"] as? Double ?? 0.005
+            self.audioSessionDefaultToSpeaker = ios["audioSessionDefaultToSpeaker"] as? Bool ?? false
         }else {
             self.iconName = args["iconName"] as? String ?? "CallKitLogo"
             self.handleType = args["handleType"] as? String ?? ""
@@ -253,6 +256,7 @@ public class Call: NSObject {
             self.audioSessionActive = args["audioSessionActive"] as? Bool ?? true
             self.audioSessionPreferredSampleRate = args["audioSessionPreferredSampleRate"] as? Double ?? 44100.0
             self.audioSessionPreferredIOBufferDuration = args["audioSessionPreferredIOBufferDuration"] as? Double ?? 0.005
+            self.audioSessionDefaultToSpeaker = args["audioSessionDefaultToSpeaker"] as? Bool ?? false
         }
         if let missedCallNotification = args["missedCallNotification"] as? [String: Any] {
             self.isShowMissedCallNotification = missedCallNotification["showNotification"] as? Bool ?? true
