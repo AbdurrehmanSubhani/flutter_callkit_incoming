@@ -69,6 +69,10 @@ class FlutterCallkitIncoming {
     await _channel.invokeMethod("muteCall", {'id': id, 'isMuted': isMuted});
   }
 
+  static Future unmuteCall(String id, {bool isMuted = false}) async {
+    await _channel.invokeMethod("unmuteCall", {'id': id, 'isMuted': isMuted});
+  }
+
   /// Get Callkit Mic Status (muted/unmuted).
   /// On iOS, using Callkit(update call ui).
   /// On Android, Nothing(only callback event listener).

@@ -151,6 +151,17 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
             self.muteCall(callId, isMuted: isMuted)
             result(true)
             break
+        case "unmuteCall":
+            guard let args = call.arguments as? [String: Any] ,
+                    let callId = args["id"] as? String,
+                    let isMuted = args["isMuted"] as? Bool else {
+                result(true)
+                return
+            }
+            
+            self.unmuteCall(callId, isMuted: isMuted)
+            result(true)
+        break
         case "isMuted":
             guard let args = call.arguments as? [String: Any] ,
                   let callId = args["id"] as? String else{
@@ -365,6 +376,18 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
             self.callManager.muteCall(call: call, isMuted: isMuted)
         }
     }
+
+    @objc public func unmuteCall(_ callId: String, isMuted: Bool) {
+        guard let callId = UUID(uuidString: callId),
+              let call = self.callManager.callWithUUID(uuid: callId) else {
+            return
+        }
+        if call.isMuted == isMuted {
+            self.sendMuteEvent(callId.uuidString, isMuted)
+        } else {
+            self.callManager.unmuteCall(call: call, isMuted: isMuted)
+        }
+    }
     
     @objc public func holdCall(_ callId: String, onHold: Bool) {
         guard let callId = UUID(uuidString: callId),
@@ -534,6 +557,7 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
                 try session.setActive(data?.audioSessionActive ?? true)
                 try session.setPreferredSampleRate(data?.audioSessionPreferredSampleRate ?? 44100.0)
                 try session.setPreferredIOBufferDuration(data?.audioSessionPreferredIOBufferDuration ?? 0.005)
+                try session.setPrefersEchoCancelledInput(true)
             }catch{
                 print(error)
             }
